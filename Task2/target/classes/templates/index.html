@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<style>
+    /* Remove the jumbotron's default bottom margin */ 
+     .jumbotron {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+	<!-- create navigation bar ( header) -->
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" th:href="@{/}">Registration and
+					Login Module</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<br><br><br><br>
+	 <span style="color:black; margin-left:5%">Name :</span> <span style="color:black" th:text="${fullname}"></span>
+	<span style="color:black; margin-left:20%">Money :</span><span style="color:black" th:text="${assets}"></span>
+	<br>
+	<!-- buyed message -->
+	<div th:if="${param.buyed}">
+		<div class="alert alert-success"> Product Buyed Successfully.</div>
+	</div>
+	<!-- Insufficient message -->
+	<div th:if="${param.insufficientfunds}">
+		<div class="alert alert-info"> Insufficient Funds.</div>
+	</div>
+	<!-- ProductNot Available message -->
+	<div th:if="${param.notavailable}">
+		<div class="alert alert-danger"> Product Not available currently.</div>
+	</div>
+<div class="container">    
+  <div class="row">
+    <div class="col-sm-3" th:each="Product, isStat : ${listProd}">
+      <div class="panel panel-primary">
+        <div class="panel-heading" th:text="${Product.id}"></div>
+        <div class="panel-body">
+        <img src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png" style="width: 200px; height: 150px;">
+         NAME : <span th:text="${Product.name}"></span><br>
+         PRICE : <span th:text="${Product.price}"></span><br>
+         MANUFACTURED ON : <span th:text="${Product.manufacture_date}"></span><br>
+         AVAILABLE : <span th:text="${Product.stocks}"></span>
+        </div>
+        <div class="panel-footer">
+        	<a th:href="@{buynow/(pro=${Product.id})}" type="button">Buy Now</a>
+        </div>
+      </div>
+    </div>
+   </div>
+ </div>
+
+
+</body>
+</html>
